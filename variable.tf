@@ -16,27 +16,6 @@ variable "ecs_role_arn" {
   description = "ARN of the IAM role that allows Amazon ECS to make calls to your load balancer on your behalf. This parameter is required if you are using a load balancer with your service, but only if your task definition does not use the awsvpc network mode. If using awsvpc network mode, do not specify this role. If your account has already created the Amazon ECS service-linked role, that role is used by default for your service unless you specify a role here"
 }
 
-# variable "classical_elb_name" {
-#   default=""
-#   description="required for classical load balancer"
-# }
-
-variable "target_group_arn" {
-  default     = ""
-  description = ""
-}
-
-variable "container_name" {
-  description = "The name of the container to associate with the load balancer (as it appears in a container definition)."
-
-}
-
-
-variable "container_port" {
-  default     = 80
-  description = "The port on the container to associate with the load balancer."
-}
-
 variable "network_mode" {
   default     = "bridge"
   description = "The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host."
@@ -131,6 +110,18 @@ variable "service_task_def_depends_on" {
   default     = []
   description = "list of aws resources to wait for creating this "
 }
+
+variable "volumes" {
+  description = "volumes for task defination"
+  type        = list(map(any))
+  default     = []
+}
+
+variable "load_balancers" {
+  type    = list(map(any))
+  default = []
+}
+
 
 
 

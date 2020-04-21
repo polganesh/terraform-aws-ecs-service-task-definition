@@ -2,8 +2,7 @@ resource "aws_ecs_service" "ecs-service" {
   #ToDo
   # ordered_placement_strategy
   # placement_constraints
-  # lifecycle ignore changes
-  name            = "svc-${var.region_id}-${var.environment}-${var.cost_centre}-vpc${var.vpc_seq_id}-${var.app_service}-${var.task_service_for}-${var.seq_id}-${random_string.main.result}"
+  name            = "svc-${var.region_id}-${var.environment}-${var.cost_centre}-vpc${var.vpc_seq_id}-${var.app_service}-${var.task_service_for}-${var.seq_id}"
   cluster         = var.ecs_cluster_id
   task_definition = aws_ecs_task_definition.main.arn
   desired_count   = var.desire_count
@@ -15,15 +14,12 @@ resource "aws_ecs_service" "ecs-service" {
   iam_role   = var.ecs_role_arn
   depends_on = [var.service_task_def_depends_on]
 
-  load_balancer {
-    #needed only of load balancer is classic  
-    #elb_name         = var.classical_elb_name
-    target_group_arn = var.target_group_arn
-    container_name   = var.container_name
-    container_port   = var.container_port
-  }
-
-  lifecycle {
-    #ignore_changes = ["task_definition"]
+  dynamic "load_balancer" {
+    for_each = var.load_balancers
+    content {
+      target_group_arn = load_balancer.value.target_group_arn
+      container_name   = load_balancer.value.container_name
+      container_port   = load_balancer.value.container_port
+    }
   }
 }

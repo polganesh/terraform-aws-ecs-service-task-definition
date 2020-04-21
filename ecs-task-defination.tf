@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "main" {
-  family                   = "tdef-${var.region_id}-${var.environment}-${var.cost_centre}-vpc${var.vpc_seq_id}-${var.app_service}-${var.task_service_for}-${var.seq_id}-${random_string.main.result}"
+  family                   = "tdef-${var.region_id}-${var.environment}-${var.cost_centre}-vpc${var.vpc_seq_id}-${var.app_service}-${var.task_service_for}-${var.seq_id}"
   network_mode             = var.network_mode
   memory                   = var.task_memory
   cpu                      = var.task_cpu
@@ -7,11 +7,19 @@ resource "aws_ecs_task_definition" "main" {
   execution_role_arn       = var.task_definition_execution_role_arn
   requires_compatibilities = var.requires_compatibilities
 
+  dynamic "volume" {
+    for_each = var.volumes
+    content {
+      name      = volume.value.name
+      host_path = volume.value.host_path
+    }
+  }
+
   tags = merge(
     var.common_tags,
     var.tags_for_task_defination,
     {
-      Name        = "tdef-${var.region_id}-${var.environment}-${var.cost_centre}-vpc${var.vpc_seq_id}-${var.app_service}-${var.task_service_for}-${var.seq_id}-${random_string.main.result}"
+      Name        = "tdef-${var.region_id}-${var.environment}-${var.cost_centre}-vpc${var.vpc_seq_id}-${var.app_service}-${var.task_service_for}-${var.seq_id}"
       RegionId    = var.region_id
       Environment = var.environment
       CostCentre  = var.cost_centre
