@@ -30,25 +30,3 @@ resource "aws_ecs_task_definition" "main" {
     }
   )
 }
-
-
-
-# resource "aws_ecs_task_definition" "airflow" {
-#   family                    = "airflow"
-#   container_definitions     = data.template_file.airflow.rendered
-#   memory                    = 2048
-#   cpu                       = 1024
-#   network_mode              = "awsvpc"
-#   execution_role_arn        = var.airflow_task_definition_execution_role_arn
-#   requires_compatibilities  = ["EC2"]
-
-#   volume {
-#     name      = "requirements"
-#     host_path = "/home/ec2-user/airflow/docker/requirements.txt"
-#   }
-
-#   volume {
-#     name      = "dags"
-#     host_path = "/home/ec2-user/airflow/dags"
-#   }
-# }
