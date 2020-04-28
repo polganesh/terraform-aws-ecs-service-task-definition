@@ -122,6 +122,11 @@ variable "load_balancers" {
   default = []
 }
 
+variable "container-defn-placeholder-map" {
+  type    = map
+  default = {}
+}
+
 
 
 

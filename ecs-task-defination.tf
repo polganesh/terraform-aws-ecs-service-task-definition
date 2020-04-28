@@ -3,7 +3,7 @@ resource "aws_ecs_task_definition" "main" {
   network_mode             = var.network_mode
   memory                   = var.task_memory
   cpu                      = var.task_cpu
-  container_definitions    = "${file("${path.root}/${var.location_of_container_defn}")}"
+  container_definitions    = data.template_file.container-defn-data.rendered
   execution_role_arn       = var.task_definition_execution_role_arn
   requires_compatibilities = var.requires_compatibilities
 
