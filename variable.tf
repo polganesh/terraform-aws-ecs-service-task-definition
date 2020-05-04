@@ -127,9 +127,9 @@ variable "container-defn-placeholder-map" {
   default = {}
 }
 
-variable "cw_lgrp_for_list"{
-  type=list
-  default=[]
+variable "cw_lgrp_for_list" {
+  type    = list
+  default = []
 }
 
 
