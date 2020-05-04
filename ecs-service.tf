@@ -12,7 +12,7 @@ resource "aws_ecs_service" "ecs-service" {
   # If your account has already created the Amazon ECS service-linked role,
   # that role is used by default for your service unless you specify a role here
   iam_role   = var.ecs_role_arn
-  depends_on = [var.service_task_def_depends_on]
+  depends_on = [var.service_task_def_depends_on,aws_cloudwatch_log_group.main]
 
   dynamic "load_balancer" {
     for_each = var.load_balancers

@@ -6,6 +6,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions    = data.template_file.container-defn-data.rendered
   execution_role_arn       = var.task_definition_execution_role_arn
   requires_compatibilities = var.requires_compatibilities
+  depends_on=[aws_cloudwatch_log_group.main]
 
   dynamic "volume" {
     for_each = var.volumes

@@ -46,10 +46,10 @@ variable "requires_compatibilities" {
   description = "A set of launch types required by the task. The valid values are EC2 and FARGATE."
 }
 
-variable "is_require_cw_lgrp" {
-  default     = "true"
-  description = "if true it will create cloud watch log group"
-}
+# variable "is_require_cw_lgrp" {
+#   default     = "true"
+#   description = "if true it will create cloud watch log group"
+# }
 
 variable "cw_lgrp_retention_in_days" {
   default     = 7
@@ -125,6 +125,11 @@ variable "load_balancers" {
 variable "container-defn-placeholder-map" {
   type    = map
   default = {}
+}
+
+variable "cw_lgrp_for_list"{
+  type=list
+  default=[]
 }
 
 
